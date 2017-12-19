@@ -13,6 +13,7 @@ source_url       "https://github.com/hopshadoop/virapipe-chef"
 end
 
 depends 'java'
+depends 'magic_shell'
 
 recipe  "virapipe::install", "Installs Virapipe"
 recipe  "virapipe::default", "Configures Virapipe."
