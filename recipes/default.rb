@@ -82,8 +82,9 @@ bash 'blastdb' do
        mkdir -p /database/blast/nt
        mkdir -p /database/blast/hg
        mkdir -p /database/blast/taxdb
-#       chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /var/blastdb
-#       chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /database
+       chmod -R 775 /database
+       chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /var/blastdb
+       chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /database
 
   EOF
   not_if { File.directory?("/var/blastdb/database") }  
