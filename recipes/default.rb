@@ -15,6 +15,7 @@ bash 'jbwa' do
     rm -rf jbwa
     git clone https://github.com/lindenb/jbwa
     cd jbwa
+    chmod +x jbwa.jar
     make
     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
   EOF
