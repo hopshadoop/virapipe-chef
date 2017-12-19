@@ -30,7 +30,7 @@ attribute "java/install_flavor",
           :display_name =>  "Oracle (default) or openjdk",
           :type => 'string'
 
-attribute "hops/basedir",
+attribute "hops/base_dir",
           :display_name =>  "Hops base install dir",
           :type => 'string'
 

@@ -9,6 +9,6 @@ default['virapipe']['_url']          = node['download_url'] + "/ki/"
 default['virapipe']['_url']          = node['download_url'] + "/ki/"
 
 
-default['hops']['basedir']           = "/srv/hops"
+default['hops']['base_dir']           = "/srv/hops"
 default['hops']['yarnapp']['user']   = "yarnapp"
 default['hops']['group']             = "hadoop"
