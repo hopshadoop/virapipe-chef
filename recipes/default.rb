@@ -19,6 +19,7 @@ bash 'jbwa' do
     make
     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
   EOF
+  not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
 end
 
 
