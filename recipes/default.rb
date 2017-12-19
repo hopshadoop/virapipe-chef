@@ -10,10 +10,9 @@ bash 'jbwa' do
   code <<-EOF
     set -e
     export JAVA_HOME=/usr/lib/jvm/default-java
-#    cd #{Chef::Config['file_cache_path']} 
-    mkdir -p #{node['hops']['base_dir']}/lib/native
-
+    #mkdir -p #{node['hops']['base_dir']}/lib/native
     cd /usr/local
+    rm -rf jbwa
     git clone https://github.com/lindenb/jbwa
     cd jbwa
     make
