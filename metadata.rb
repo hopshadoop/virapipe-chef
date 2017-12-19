@@ -12,6 +12,8 @@ source_url       "https://github.com/hopshadoop/virapipe-chef"
   supports os
 end
 
+depends 'java'
+
 recipe  "virapipe::install", "Installs Virapipe"
 recipe  "virapipe::default", "Configures Virapipe."
 
