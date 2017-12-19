@@ -1,15 +1,3 @@
 dependencies: 
   - recipe: virapipe::install
     global:
-      - kagent::install
-      - hops::install
-  - recipe: virapipe::master
-  - recipe: virapipe::historyserver
-    global:
-      - hops::dn
-  - recipe: virapipe::yarn
-    global:
-      - hops::dn
-  - recipe: virapipe::worker
-    global:
-      - virapipe::master

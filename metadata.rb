@@ -12,10 +12,6 @@ source_url       "https://github.com/hopshadoop/virapipe-chef"
   supports os
 end
 
-depends 'conda'
-depends 'kagent'
-depends 'hops'
-
 recipe  "virapipe::install", "Installs Virapipe"
 recipe  "virapipe::default", "Configures Virapipe."
 
@@ -31,4 +27,10 @@ attribute "java/install_flavor",
           :display_name =>  "Oracle (default) or openjdk",
           :type => 'string'
 
+attribute "hops/basedir",
+          :display_name =>  "Hops base install dir",
+          :type => 'string'
 
+attribute "hops/yarnapp/user",
+          :display_name =>  "Hops yarn app user",
+          :type => 'string'

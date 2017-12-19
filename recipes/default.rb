@@ -3,11 +3,13 @@ include_recipe "java"
 
 #hops_groups()
 
+package 'unzip'
 
 bash 'jbwa' do
   user "root"
   code <<-EOF
     set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
 #    cd #{Chef::Config['file_cache_path']} 
     mkdir -p #{node['hops']['base_dir']}/lib/native
 
@@ -24,6 +26,7 @@ bash 'megahit' do
   user "root"
   code <<-EOF
     set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
     cd /usr/local
     git clone https://github.com/voutcn/megahit
     cd megahit
@@ -44,6 +47,7 @@ bash 'hmmer' do
   user "root"
   code <<-EOF
     set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
     cd /usr/local
     wget #{node['virapipe']['hmmer_url']}
     tar zxf #{hmmer}
@@ -61,6 +65,7 @@ bash 'blastdb' do
   user "root"
   code <<-EOF
     set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
        cd #{Chef::Config['file_cache_path']} 
        mkdir -p database
        cd database
