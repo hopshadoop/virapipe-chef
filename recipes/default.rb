@@ -71,6 +71,8 @@ bash 'blastdb' do
        cd #{Chef::Config['file_cache_path']} 
        mkdir -p database
        cd database
+       rm -rf *.1
+       rm -rf *.2
        for i in {0..9}; do rm -f nt.0$i.tar.gz ; wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
        for i in {10..50}; do rm -f nt.$i.tar.gz ; wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
 # Notice: {0..9} fails (from ViraPipe docs), as '9' is not found
