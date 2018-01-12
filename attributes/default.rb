@@ -1,4 +1,7 @@
 include_attribute "kagent"
+include_attribute "ndb"
+include_attribute "hops"
+
 default['virapipe']['hmmer_url']     = node['download_url'] + "/ki/hmmer-3.1b2-linux-intel-x86_64.tar.gz"
 default['virapipe']['blast_url']     = node['download_url'] + "/ki/ncbi-blast-2.6.0+-x64-linux.tar.gz"
 default['virapipe']['vfam_url']      = node['download_url'] + "/ki/vFam-B_2014.hmm"
