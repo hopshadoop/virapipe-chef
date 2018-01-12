@@ -5,3 +5,4 @@ metadata
 
 cookbook 'java'
 cookbook 'magic_shell'
+cookbook 'kagent', github: "hopshadoop/kagent-chef", branch: "master"

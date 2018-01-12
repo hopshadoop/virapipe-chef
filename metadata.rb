@@ -14,6 +14,7 @@ end
 
 depends 'java'
 depends 'magic_shell'
+depends 'kagent'
 
 recipe  "virapipe::install", "Installs Virapipe"
 recipe  "virapipe::default", "Configures Virapipe."
