@@ -28,6 +28,7 @@ bash 'megahit' do
   code <<-EOF
     set -e
     export JAVA_HOME=/usr/lib/jvm/default-java
+    apt-get install build-essential -y
     cd /usr/local
     git clone https://github.com/voutcn/megahit
     cd megahit
