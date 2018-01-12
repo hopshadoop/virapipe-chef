@@ -37,3 +37,19 @@ attribute "hops/base_dir",
 attribute "hops/yarnapp/user",
           :display_name =>  "Hops yarn app user",
           :type => 'string'
+
+attribute "install/dir",
+          :description => "Default ''. Set to a base directory under which all hops services will be installed.",
+          :type => "string"
+
+attribute "install/user",
+          :description => "User to install the services as",
+          :type => "string"
+
+attribute "install/ssl",
+          :description => "Is SSL turned on for all services?",
+          :type => "string"
+
+attribute "install/cleanup_downloads",
+          :description => "Remove any zipped binaries that were downloaded and used to install services",
+          :type => "string"
