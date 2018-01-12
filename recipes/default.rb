@@ -71,11 +71,11 @@ bash 'blastdb' do
        cd #{Chef::Config['file_cache_path']} 
        mkdir -p database
        cd database
-       for i in {0..9}; do wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/nt.0$i.tar.gz ; done
-       for i in {10..50}; do wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/nt.$i.tar.gz ; done
-       for i in {0..9}; do wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/human_genomic.0$i.tar.gz ; done
-       for i in {10..22}; do wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/human_genomic.$i.tar.gz ; done
-       wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
+       for i in {0..9}; do wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
+       for i in {10..50}; do wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
+       for i in {0..9}; do wget #{node['virapipe']['blast_url']}/human_genomic.0$i.tar.gz ; done
+       for i in {10..22}; do wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
+       wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
        cat *.gz | tar -xzvf - -i
        cd ..
        mkdir -p /var/blastdb
