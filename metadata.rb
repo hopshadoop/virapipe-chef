@@ -18,6 +18,7 @@ depends 'kagent'
 depends 'conda'
 depends 'hops'
 depends 'ndb'
+depends 'kzookeeper'
 
 recipe  "virapipe::install", "Installs Virapipe"
 recipe  "virapipe::default", "Configures Virapipe."
