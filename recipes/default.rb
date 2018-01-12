@@ -77,10 +77,21 @@ bash 'blastdb' do
        for i in {10..22}; do rm -rf #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
        rm -rf #{node['virapipe']['blast_url']}/taxdb.tar.gz
        wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
+  EOF
+  not_if { File.directory?("#{Chef::Config['file_cache_path']}/database/taxdb.tar.gz") }  
+end
+
+bash 'blastdb_extract' do
+  user "root"
+  code <<-EOF
+    set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
+       cd #{Chef::Config['file_cache_path']} 
+       cd database
        cat *.gz | tar -xzvf - -i
        cd ..
        mkdir -p /var/blastdb
-       mv database /var/blastdb
+       mv -f database /var/blastdb
        # create database dir
        mkdir -p /database/blast/nt
        mkdir -p /database/blast/hg
@@ -88,9 +99,9 @@ bash 'blastdb' do
        chmod -R 775 /database
        chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /var/blastdb
        chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /database
-
+       touch /database/.installed
   EOF
-  not_if { File.directory?("/var/blastdb/database") }  
+  not_if { File.directory?("/database/.installed") }  
 end
 
 
