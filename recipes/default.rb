@@ -94,14 +94,15 @@ bash 'blastdb_extract' do
        cd database
        cat *.gz | tar -xzvf - -i
        cd ..
-       mkdir -p /var/blastdb
-       mv -f database /var/blastdb
+       mkdir -p /database
        # create database dir
        mkdir -p /database/blast/nt
        mkdir -p /database/blast/hg
        mkdir -p /database/blast/taxdb
+       mv -f database/human_genomic* /database/hg
+       mv -f database/nt* /database/nt
+       mv -f database/taxdb* /database/taxdb
        chmod -R 775 /database
-       chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /var/blastdb
        chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /database
        touch /database/.installed
   EOF
