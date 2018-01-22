@@ -73,13 +73,14 @@ bash 'blastdb' do
        cd database
        rm -rf *.1
        rm -rf *.2
-       for i in {0..9}; do rm -f nt.0$i.tar.gz ; wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
-       for i in {10..50}; do rm -f nt.$i.tar.gz ; wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
+       for i in {0..9}; do [ -f nt.0$i.tar.gz] && echo "found nt.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
+       for i in {10..50}; do [ -f nt.$i.tar.gz] && echo "found nt.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
 # Notice: {0..9} fails (from ViraPipe docs), as '9' is not found
-       for i in {0..8}; do rm -f human_genomic.0$i.tar.gz ; wget #{node['virapipe']['blast_url']}/human_genomic.0$i.tar.gz ; done
-       for i in {10..22}; do rm -rf human_genomic.$i.tar.gz ; wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
-       rm -rf taxdb.tar.gz
-       wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
+       for i in {0..8}; do [ -f human_genomic.0$i.tar.gz] && echo "found human_genomic.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.0$i.tar.gz ; done
+       for i in {10..16}; do [ -f human_genomic.$i.tar.gz] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
+# Notice: {17} fails (from ViraPipe docs), as '17' is not found
+       for i in {18..22}; do [ -f human_genomic.$i.tar.gz] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
+       [ -f taxdb.tar.gz] && echo "found taxdb.tar.gz" || wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
   EOF
   not_if { File.directory?("#{Chef::Config['file_cache_path']}/database/taxdb.tar.gz") }  
 end
