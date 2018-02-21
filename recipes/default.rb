@@ -18,6 +18,7 @@ bash 'jbwa' do
     make
     chmod +x jbwa.jar
     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
+    chown #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} #{node['hops']['base_dir']}/lib/native/libbwajni.so
   EOF
   not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
 end
