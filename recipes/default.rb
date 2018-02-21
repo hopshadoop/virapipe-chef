@@ -5,22 +5,22 @@ include_recipe "java"
 
 package 'unzip'
 
-# bash 'jbwa' do
-#   user "root"
-#   code <<-EOF
-#     set -e
-#     export JAVA_HOME=/usr/lib/jvm/default-java
-#     #mkdir -p #{node['hops']['base_dir']}/lib/native
-#     cd /usr/local
-#     rm -rf jbwa
-#     git clone https://github.com/lindenb/jbwa
-#     cd jbwa
-#     make
-#     chmod +x jbwa.jar
-#     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
-#   EOF
-#   not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
-# end
+bash 'jbwa' do
+  user "root"
+  code <<-EOF
+    set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
+    #mkdir -p #{node['hops']['base_dir']}/lib/native
+    cd /usr/local
+    rm -rf jbwa
+    git clone https://github.com/lindenb/jbwa
+    cd jbwa
+    make
+    chmod +x jbwa.jar
+    cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
+  EOF
+  not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
+end
 
 
 # bash 'megahit' do
@@ -45,7 +45,6 @@ bash 'megahit' do
       set -e
       rm -f /usr/bin/megahit
       ln -s /usr/local/megahit/megahit /usr/bin/megahit
-      mv /srv/hops/hadoop-2.8.2.2/lib/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
   EOF
 end
 
