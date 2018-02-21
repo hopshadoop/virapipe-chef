@@ -20,7 +20,7 @@ bash 'jbwa' do
     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
     chown #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} #{node['hops']['base_dir']}/lib/native/libbwajni.so
   EOF
-  not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
+  not_if { ::File.exist?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
 end
 
 
@@ -71,7 +71,7 @@ bash 'hmmer' do
     cd /database/hmmer
     wget #{vfam_url}
   EOF
-  not_if { File.directory?("/usr/local/hmmer") }  
+  not_if { ::File.directory?("/database/hmmer") }  
 end
 
 
@@ -94,7 +94,7 @@ bash 'blastdb' do
        for i in {18..22}; do [ -f human_genomic.$i.tar.gz ] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
        [ -f taxdb.tar.gz ] && echo "found taxdb.tar.gz" || wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
   EOF
-  not_if { File.directory?("#{Chef::Config['file_cache_path']}/database/taxdb.tar.gz") }  
+  not_if { ::File.exist?("#{Chef::Config['file_cache_path']}/database/taxdb.tar.gz") }  
 end
 
 bash 'blastdb_extract' do
@@ -118,7 +118,7 @@ bash 'blastdb_extract' do
        chown -R #{node['hops']['yarnapp']['user']}:#{node['hops']['group']} /database
        touch /database/.installed
   EOF
-  not_if { File.directory?("/database/.installed") }  
+  not_if { ::File.exist?("/database/.installed") }  
 end
 
 
@@ -126,3 +126,15 @@ magic_shell_environment 'BLASTDB' do
   value "/database/blast/nt:/database/blast/hg:/database/taxdb"
 end
 
+
+bash 'human_genomic' do
+  user "root"
+  code <<-EOF
+    set -e
+    mkdir -p /index
+    cd /index
+    wget -R ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/*
+    touch /index/.indexes_downloaded
+  EOF
+  not_if { ::File.exist?("/index/.indexes_downloaded") }  
+end
