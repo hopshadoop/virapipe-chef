@@ -134,7 +134,7 @@ bash 'human_genomic' do
     set -e
     mkdir -p /index
     cd /index
-    wget -R ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/*
+    wget -r ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/*
     touch /index/.indexes_downloaded
   EOF
   not_if { ::File.exist?("/index/.indexes_downloaded") }  
