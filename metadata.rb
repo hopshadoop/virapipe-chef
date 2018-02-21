@@ -58,3 +58,7 @@ attribute "install/ssl",
 attribute "install/cleanup_downloads",
           :description => "Remove any zipped binaries that were downloaded and used to install services",
           :type => "string"
+
+attribute "download_url",
+          :description => "URL for downloading binaries",
+          :type => 'string'
