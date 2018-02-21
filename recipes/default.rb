@@ -122,5 +122,6 @@ end
 
 
 magic_shell_environment 'BLASTDB' do
-  value "/database"
+  value "/database/blast/nt:/database/blast/hg:/database/taxdb"
 end
+
