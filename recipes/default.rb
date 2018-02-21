@@ -5,38 +5,50 @@ include_recipe "java"
 
 package 'unzip'
 
-bash 'jbwa' do
-  user "root"
-  code <<-EOF
-    set -e
-    export JAVA_HOME=/usr/lib/jvm/default-java
-    #mkdir -p #{node['hops']['base_dir']}/lib/native
-    cd /usr/local
-    rm -rf jbwa
-    git clone https://github.com/lindenb/jbwa
-    cd jbwa
-    make
-    chmod +x jbwa.jar
-    cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
-  EOF
-  not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
-end
+# bash 'jbwa' do
+#   user "root"
+#   code <<-EOF
+#     set -e
+#     export JAVA_HOME=/usr/lib/jvm/default-java
+#     #mkdir -p #{node['hops']['base_dir']}/lib/native
+#     cd /usr/local
+#     rm -rf jbwa
+#     git clone https://github.com/lindenb/jbwa
+#     cd jbwa
+#     make
+#     chmod +x jbwa.jar
+#     cp src/main/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
+#   EOF
+#   not_if { File.directory?("#{node['hops']['base_dir']}/lib/native/libbwajni.so") }    
+# end
+
+
+# bash 'megahit' do
+#   user "root"
+#   code <<-EOF
+#     set -e
+#     export JAVA_HOME=/usr/lib/jvm/default-java
+#     apt-get install build-essential -y
+#     cd /usr/local
+#     git clone https://github.com/voutcn/megahit
+#     cd megahit
+#     make
+#     ln -s /usr/local/megahit/megahit /usr/bin/megahit
+#   EOF
+#   not_if { File.directory?("/usr/bin/megahit") }  
+# end
 
 
 bash 'megahit' do
   user "root"
   code <<-EOF
-    set -e
-    export JAVA_HOME=/usr/lib/jvm/default-java
-    apt-get install build-essential -y
-    cd /usr/local
-    git clone https://github.com/voutcn/megahit
-    cd megahit
-    make
-    ln -s /usr/local/megahit/bin/megahit /usr/bin/megahit
+      set -e
+      rm -f /usr/bin/megahit
+      ln -s /usr/local/megahit/megahit /usr/bin/megahit
+      mv /srv/hops/hadoop-2.8.2.2/lib/native/libbwajni.so #{node['hops']['base_dir']}/lib/native
   EOF
-  not_if { File.directory?("/usr/local/megahit") }  
 end
+
 
 hmmer =  File.basename(node['virapipe']['hmmer_url'])
 hmmer_package =  File.basename(hmmer, ".tar.gz")
@@ -73,14 +85,14 @@ bash 'blastdb' do
        cd database
        rm -rf *.1
        rm -rf *.2
-       for i in {0..9}; do [ -f nt.0$i.tar.gz] && echo "found nt.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
-       for i in {10..50}; do [ -f nt.$i.tar.gz] && echo "found nt.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
+       for i in {0..9}; do [ -f nt.0$i.tar.gz ] && echo "found nt.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.0$i.tar.gz ; done
+       for i in {10..50}; do [ -f nt.$i.tar.gz ] && echo "found nt.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/nt.$i.tar.gz ; done
 # Notice: {0..9} fails (from ViraPipe docs), as '9' is not found
-       for i in {0..8}; do [ -f human_genomic.0$i.tar.gz] && echo "found human_genomic.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.0$i.tar.gz ; done
-       for i in {10..16}; do [ -f human_genomic.$i.tar.gz] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
+       for i in {0..8}; do [ -f human_genomic.0$i.tar.gz ] && echo "found human_genomic.0$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.0$i.tar.gz ; done
+       for i in {10..16}; do [ -f human_genomic.$i.tar.gz ] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
 # Notice: {17} fails (from ViraPipe docs), as '17' is not found
-       for i in {18..22}; do [ -f human_genomic.$i.tar.gz] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
-       [ -f taxdb.tar.gz] && echo "found taxdb.tar.gz" || wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
+       for i in {18..22}; do [ -f human_genomic.$i.tar.gz ] && echo "found human_genomic.$i.tar.gz" || wget #{node['virapipe']['blast_url']}/human_genomic.$i.tar.gz ; done
+       [ -f taxdb.tar.gz ] && echo "found taxdb.tar.gz" || wget #{node['virapipe']['blast_url']}/taxdb.tar.gz
   EOF
   not_if { File.directory?("#{Chef::Config['file_cache_path']}/database/taxdb.tar.gz") }  
 end
