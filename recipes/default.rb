@@ -104,6 +104,7 @@ bash 'blastdb_extract' do
     export JAVA_HOME=/usr/lib/jvm/default-java
        cd #{Chef::Config['file_cache_path']} 
        cd database
+       ls * | grep -v '.gz' | rm -f || echo "database was clean"
        cat *.gz | tar -xzvf - -i
        cd ..
        mkdir -p /database
