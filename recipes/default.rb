@@ -24,30 +24,30 @@ bash 'jbwa' do
 end
 
 
-# bash 'megahit' do
-#   user "root"
-#   code <<-EOF
-#     set -e
-#     export JAVA_HOME=/usr/lib/jvm/default-java
-#     apt-get install build-essential -y
-#     cd /usr/local
-#     git clone https://github.com/voutcn/megahit
-#     cd megahit
-#     make
-#     ln -s /usr/local/megahit/megahit /usr/bin/megahit
-#   EOF
-#   not_if { File.directory?("/usr/bin/megahit") }  
-# end
-
-
 bash 'megahit' do
   user "root"
   code <<-EOF
-      set -e
-      rm -f /usr/bin/megahit
-      ln -s /usr/local/megahit/megahit /usr/bin/megahit
+    set -e
+    export JAVA_HOME=/usr/lib/jvm/default-java
+    apt-get install build-essential -y
+    cd /usr/local
+    git clone https://github.com/voutcn/megahit
+    cd megahit
+    make
+    ln -s /usr/local/megahit/megahit /usr/bin/megahit
   EOF
+  not_if { File.directory?("/usr/bin/megahit") }  
 end
+
+
+# bash 'megahit' do
+#   user "root"
+#   code <<-EOF
+#       set -e
+#       rm -f /usr/bin/megahit
+#       ln -s /usr/local/megahit/megahit /usr/bin/megahit
+#   EOF
+# end
 
 
 hmmer =  File.basename(node['virapipe']['hmmer_url'])
@@ -134,7 +134,9 @@ bash 'human_genomic' do
     set -e
     mkdir -p /index
     cd /index
-    wget -r ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/*
+    wget -r ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/* 
+    mv ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/* .
+    rm -rf ftp.1000genomes.ebi.ac.uk
     touch /index/.indexes_downloaded
   EOF
   not_if { ::File.exist?("/index/.indexes_downloaded") }  
